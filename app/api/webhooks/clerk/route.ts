@@ -1,6 +1,6 @@
 import { Webhook } from 'svix';
 import { headers } from 'next/headers';
-import { db } from '@/db'; // your drizzle instance
+import { db } from '@/db'; 
 import { users } from '@/db/schema';
 import { eq } from 'drizzle-orm';
 
@@ -41,17 +41,17 @@ export async function POST(req: Request) {
 
     await db
       .insert(users)
-      .values({
+      .values([{
         clerkId: id,
         email,
-        name: name || null,
+        name: name || "",
         imageUrl: image_url,
-      })
+      }])
       .onConflictDoUpdate({
         target: users.clerkId,
         set: {
           email,
-          name: name || null,
+          name: name || "",
           imageUrl: image_url,
           updatedAt: new Date(),
         },
