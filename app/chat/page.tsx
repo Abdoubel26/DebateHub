@@ -1,9 +1,8 @@
 "use client";
 import React, { useState } from "react";
 import Image from "next/image";
-import { ArrowRight } from "lucide-react";
+import { ArrowUp } from "lucide-react";
 
-// Quick dummy list of users to debate with
 const usersList = [
   { id: "usr_1", name: "Emma Watson", image: "https://i.pravatar.cc/150?img=5", lastMessage: "The 'soul' is just a collection of data...", topic: "AI & Creativity", active: true },
   { id: "usr_2", name: "Sarah Ahmed", image: "https://i.pravatar.cc/150?img=12", lastMessage: "Civic principles must come first.", topic: "Religion & Politics", active: false },
@@ -48,8 +47,8 @@ function ChatPage() {
         <div className="flex w-full flex-row">
             <input placeholder={`Type a response to counter ${selectedUser.name}...`} className="bg-gray-800/30 border border-gray-800 w-full rounded-xl p-3 text-sm text-white placeholder:text-slate-500 focus:outline-0"> 
             </input>
-            <button className="bg-blue-700 p-2.5 rounded-full m-1 ">
-                <ArrowRight />
+            <button className="bg-blue-700 p-2.5 cursor-pointer rounded-full ml-2 ">
+                <ArrowUp />
             </button>
         </div>
 

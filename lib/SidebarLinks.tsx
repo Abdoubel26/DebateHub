@@ -13,7 +13,6 @@ export default function SidebarLinks() {
     { href: "/mytopics", label: "My Topics", icon: Lightbulb },
     { href: "/joineddebates", label: "Joined Debates", icon: UserRoundPlus },
     { href: "/chat", label: "Debate Chat", icon: MessageSquare },
-    { href: "/profile", label: "Profile", icon: User },
   ];
 
   return (

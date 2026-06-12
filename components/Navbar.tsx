@@ -1,7 +1,7 @@
 import { Show, SignInButton, SignUpButton, UserButton } from '@clerk/nextjs'
 import Link from 'next/link'
 import { auth } from "@clerk/nextjs/server"
-import { Bell, Plus, Sun, Moon } from "lucide-react"
+import { Plus, Sun, Moon } from "lucide-react"
 
 async function Navbar() {
 
@@ -22,9 +22,7 @@ async function Navbar() {
             <Link href="/new" className="flex cursor-pointer items-center gap-2 rounded-lg px-3 py-1.5 bg-slate-800/60 hover:bg-slate-800/80 transition text-sm font-medium text-slate-100">
                 <Plus color="white" size={20} />
             </Link>
-            <Link href="/notifications" className="flex cursor-pointer items-center gap-2 rounded-lg px-3 py-1.5 bg-slate-800/60 hover:bg-slate-800/80 transition text-sm font-medium text-slate-100">
-                <Bell color="white" size={20} />
-            </Link>
+          
               </>
                : null}
             <div className="flex items-center gap-2 rounded-lg cursor-pointer px-3 py-1.5 bg-slate-800/60 hover:bg-slate-800/80 transition text-sm font-medium text-slate-100">

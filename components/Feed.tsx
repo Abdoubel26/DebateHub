@@ -62,13 +62,13 @@ function Feed() {
               </div>
 
               <button
-                className={`rounded-xl px-4 py-2 text-sm font-medium transition-all ${
+                className={`rounded-xl cursor-pointer px-4 py-2 text-sm font-medium transition-all ${
                   tpc.status === "open"
                     ? "bg-slate-100 text-slate-950 hover:bg-white shadow-sm"
                     : "bg-slate-800 text-slate-300 hover:bg-slate-700 border border-slate-700"
                 }`}
               >
-                {tpc.status === "open" ? "Challenge" : "View Debate"}
+                {tpc.status === "open" ? "Join Debate" : "View Debate"}
               </button>
             </div>
           </div>
