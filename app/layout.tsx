@@ -30,7 +30,7 @@ export default function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-screen overflow-y-clip overflow-x-clip">
+      <body className="min-h-screen overflow-y-clip bg-gray-900 overflow-x-clip">
          <ClerkProvider>
           <Navbar />
           <div className="h-[calc(100vh-61px)] flex flex-row">

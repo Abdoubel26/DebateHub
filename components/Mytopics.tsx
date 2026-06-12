@@ -1,9 +1,10 @@
 import React from 'react'
 
-function Feed() {
+function MyTopics() {
   return (
        <div className="flex flex-col flex-1 gap-4 overflow-y-scroll p-4 bg-gray-900">
   {dummyTopics.map((tpc) => {
+
     return (
       <div
         key={tpc.id}
@@ -80,23 +81,9 @@ function Feed() {
   )
 }
 
-export default Feed
+export default MyTopics
 
 export const dummyTopics = [
-  {
-    id: "top_1",
-    poster: {
-      name: "John Doe",
-      image: "https://i.pravatar.cc/150?img=32",
-    },
-    title: "AI will replace most creative jobs",
-    description:
-      "Generative AI will make many traditional creative roles obsolete within the next decade.",
-    category: "science",
-    status: "open",
-    secondParticipant: null,
-    createdAt: "2026-06-12T09:52:00.000Z",
-  },
   {
     id: "top_2",
     poster: {
@@ -126,23 +113,6 @@ export const dummyTopics = [
     createdAt: "2026-06-11T08:52:00.000Z",
   },
   {
-    id: "top_4",
-    poster: {
-      name: "Bob Smith",
-      image: "https://i.pravatar.cc/150?img=8",
-    },
-    title: "Religion should remain separate from politics",
-    description:
-      "Public policy should be based on civic principles rather than religious doctrine.",
-    category: "religion",
-    status: "in debate",
-    secondParticipant: {
-      name: "Sarah Ahmed",
-      image: "https://i.pravatar.cc/150?img=5",
-    },
-    createdAt: "2026-06-11T05:52:00.000Z",
-  },
-  {
     id: "top_5",
     poster: {
       name: "Omar Ali",
@@ -153,7 +123,10 @@ export const dummyTopics = [
       "Free markets and competition create more opportunity than alternatives.",
     category: "philosophy",
     status: "open",
-    secondParticipant: null,
+    secondParticipant: {
+      name: "Victoria",
+      image: ""
+    },
     createdAt: "2026-06-09T07:52:00.000Z",
   },
 ];

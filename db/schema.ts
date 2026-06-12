@@ -14,7 +14,7 @@ export const users = pgTable("users", {
     updatedAt: timestamp("updated_at").defaultNow().$onUpdate(() => new Date())
 })
 
-const categoryEnum = pgEnum("category", [
+export const categoryEnum = pgEnum("category", [
   "philosophy",
   "politics",
   "religion",
@@ -26,13 +26,15 @@ const categoryEnum = pgEnum("category", [
   "culture",
 ]);
 
+export const statusEnum = pgEnum("status", ["open", "in debate", "ended"])
+
 export const topics = pgTable("topics", {
   id: uuid("id").primaryKey().defaultRandom(),
   posterId: varchar("poster_id").notNull(),           
   title: varchar("title", { length: 200 }).notNull(),
   description: varchar("description"),
   category: categoryEnum("category").notNull(),
-  isOpen: boolean("is_open").notNull().default(true), 
+  status: statusEnum("status").default("open"), 
   secondParticipantId: varchar("second_participant_id"), 
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow().$onUpdate(() => new Date()),

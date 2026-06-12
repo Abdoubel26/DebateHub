@@ -5,7 +5,7 @@ import { Bell, Plus, Sun, Moon } from "lucide-react"
 
 async function Navbar() {
 
-      const { userId } = await auth();
+ const { userId } = await auth();
 
   return (
     <div className="sticky top-0 z-40 border-b border-gray-300 bg-gray-900">
