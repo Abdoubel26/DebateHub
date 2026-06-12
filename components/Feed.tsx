@@ -1,9 +1,34 @@
+import { db } from '@/db';
+import { topics, users } from '@/db/schema';
+import { eq, and } from "drizzle-orm"
 import React from 'react'
 
-function Feed() {
+async function Feed() {
+
+  const fetchecTopics = await db.select({
+    id: topics.id,
+    poster: {
+      name: users.name,
+      image: users.imageUrl,
+      clerkId: users.clerkId,
+    },
+    title: topics.title,
+    description: topics.description,
+    category: topics.category,
+    status: topics.status,
+    secondParticipant: {
+      name: users.name,
+      image: users.imageUrl,
+      clerkId: users.clerkId
+    },
+    createdAt: topics.createdAt
+  })
+  .from(topics)
+  .innerJoin(users, and(eq(topics.posterId, users.clerkId), eq(topics.secondParticipantId, users.clerkId) ))
+
   return (
        <div className="flex flex-col flex-1 gap-4 overflow-y-scroll p-4 bg-gray-900">
-  {dummyTopics.map((tpc) => {
+  {fetchecTopics.map((tpc) => {
     return (
       <div
         key={tpc.id}
@@ -11,7 +36,7 @@ function Feed() {
       >
         <div className="flex items-start gap-4">
           <img
-            src={tpc.poster.image}
+            src={tpc.poster.image ?? ""}
             alt={tpc.poster.name}
             className="h-12 w-12 rounded-full object-cover border border-gray-700"
           />
@@ -23,7 +48,7 @@ function Feed() {
                   {tpc.poster.name}
                 </p>
                 <p className="text-xs text-slate-500">
-                  {new Date(tpc.createdAt).toLocaleString()}
+                  {new Date(tpc.createdAt as Date).toLocaleString()}
                 </p>
               </div>
 
