@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { ClerkProvider, Show, SignInButton, SignUpButton, UserButton } from '@clerk/nextjs'
 import "./globals.css";
 import Navbar from "@/components/Navbar";
+import Sidebar from "@/components/Sidebar";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -29,10 +30,13 @@ export default function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-screen overflow-x-clip">
+      <body className="min-h-screen overflow-y-clip overflow-x-clip">
          <ClerkProvider>
           <Navbar />
-          {children}
+          <div className="h-[calc(100vh-61px)] flex flex-row">
+            <Sidebar />
+            {children}
+          </div>
         </ClerkProvider>
         </body>
     </html>

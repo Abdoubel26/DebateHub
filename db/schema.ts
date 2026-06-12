@@ -1,3 +1,4 @@
+import { name } from "drizzle-orm";
 import { boolean, pgEnum, pgTable, timestamp, uuid, varchar } from "drizzle-orm/pg-core";
 
 const roleEnum  = pgEnum("role", ["admin", "basic"])
@@ -37,13 +38,12 @@ export const topics = pgTable("topics", {
   updatedAt: timestamp("updated_at").defaultNow().$onUpdate(() => new Date()),
 });
 
+
+
 export const messages = pgTable("messages", {
   id: uuid("id").primaryKey().defaultRandom(),
   senderId: varchar("poster_id").notNull(),
   topicId: uuid("topic_id").notNull().references(() => topics.id, { onDelete: "cascade" }),  text: varchar("text").notNull(),
+  isRead: boolean("is_read").notNull().default(false),
   createdAt: timestamp("created_at").defaultNow()
 })
-
-
-
- // useless comment
