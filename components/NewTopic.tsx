@@ -38,7 +38,7 @@ async function NewTopic() {
           </p>
         </div>
 
-        <form onSubmit={(e) => addTopic.bind(null, userId)} className="flex flex-col gap-1">
+        <form action={addTopic.bind(null, userId)} className="flex flex-col gap-1">
           
           <div className="flex flex-col gap-2">
             <label htmlFor="title" className="text-sm font-medium text-slate-200">
