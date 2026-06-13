@@ -1,9 +1,66 @@
-import React from 'react'
+import { db } from '@/db';
+import { topics, users } from '@/db/schema';
+import { eq, aliasedTable } from "drizzle-orm"
+import { auth } from "@clerk/nextjs/server"
 
-function JoinedDebatesPage() {
+
+interface EnrichedTopic {
+  id: string;
+  title: string;
+  description: string | null;
+  category: "culture" | "ethics" | "history" | "philosophy" | "politics" | "psychology" | "religion" | "science" | "society";
+  status: "open" | "in_debate" | "ended";
+  createdAt: Date | string;
+  poster: {
+    name: string;
+    image: string | null;
+    clerkId: string;
+  };
+  secondParticipant: {
+    name: string;
+    image: string | null;
+    clerkId: string;
+  } | null; 
+}
+
+const defaultpfp = "https://plus.unsplash.com/premium_photo-1677252438411-9a930d7a5168?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8ZGVmYXVsdCUyMHByb2ZpbGUlMjBwaWN0dXJlfGVufDB8fDB8fHww"
+
+
+async function JoinedDebatesPage() {
+
+
+  const {userId} = await auth()
+
+  const posters = aliasedTable(users, "posters");
+  const opponents = aliasedTable(users, "opponents");
+
+  const fetchedTopics = await db
+    .select({
+      id: topics.id,
+      title: topics.title,
+      description: topics.description,
+      category: topics.category,
+      status: topics.status,
+      createdAt: topics.createdAt,
+      poster: {
+        name: posters.name,
+        image: posters.imageUrl,
+        clerkId: posters.clerkId,
+      },
+      secondParticipant: {
+        name: opponents.name,
+        image: opponents.imageUrl,
+        clerkId: opponents.clerkId,
+      },
+    })
+    .from(topics)
+    .innerJoin(posters, eq(topics.posterId, posters.clerkId))
+    .leftJoin(opponents, eq(topics.secondParticipantId, opponents.clerkId))
+    .where(eq(topics.secondParticipantId, userId as string)) as unknown as EnrichedTopic[]
+
   return (
     <div className="flex flex-col flex-1 gap-4 overflow-y-scroll p-4 bg-gray-900">
-  {dummyTopics.map((tpc) => {
+  {fetchedTopics.map((tpc) => {
 
     return (
       <div
@@ -12,7 +69,7 @@ function JoinedDebatesPage() {
       >
         <div className="flex items-start gap-4">
           <img
-            src={tpc.poster.image}
+            src={tpc.poster.image || defaultpfp}
             alt={tpc.poster.name}
             className="h-12 w-12 rounded-full object-cover border border-gray-700"
           />
@@ -32,7 +89,7 @@ function JoinedDebatesPage() {
                 className={`rounded-full px-3 py-1 text-xs font-semibold ${
                   tpc.status === "open"
                     ? "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"
-                    : tpc.status === "in debate"
+                    : tpc.status === "in_debate"
                     ? "bg-blue-500/10 text-blue-400 border border-blue-500/20"
                     : "bg-slate-700/30 text-slate-400 border border-slate-700/50"
                 }`}
