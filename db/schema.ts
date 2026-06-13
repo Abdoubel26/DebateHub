@@ -41,7 +41,6 @@ export const topics = pgTable("topics", {
 });
 
 
-
 export const messages = pgTable("messages", {
   id: uuid("id").primaryKey().defaultRandom(),
   senderId: varchar("poster_id").notNull(),

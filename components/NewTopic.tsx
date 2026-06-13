@@ -1,7 +1,18 @@
+import { auth } from '@clerk/nextjs/server';
 import React from 'react';
+import { addTopic } from "../lib/actions/actions"
+import { redirect } from 'next/navigation';
+import Form from 'next/dist/client/app-dir/form';
+import { FormData } from 'next/dist/compiled/@edge-runtime/primitives';
 
-function NewTopic() {
-  // We'll use your exact categoryEnum values here
+async function NewTopic() {
+
+  const { userId } = await auth()
+
+  if(!userId){
+    redirect("")
+  }
+
   const categories = [
     "philosophy",
     "politics",
@@ -27,13 +38,14 @@ function NewTopic() {
           </p>
         </div>
 
-        <form className="flex flex-col gap-1">
+        <form onSubmit={(e) => addTopic.bind(null, userId)} className="flex flex-col gap-1">
           
           <div className="flex flex-col gap-2">
             <label htmlFor="title" className="text-sm font-medium text-slate-200">
               Debate Title / Thesis
             </label>
             <input
+              name="title"
               type="text"
               id="title"
               placeholder="e.g., AI will replace most creative jobs"
@@ -48,6 +60,7 @@ function NewTopic() {
             </label>
             <div className=" cursor-pointer relative">
               <select
+                name="category"
                 id="category"
                 className="w-full appearance-none rounded-xl border border-gray-700 bg-gray-900 px-4 py-3 text-sm text-white shadow-inner outline-none transition focus:border-violet-500 focus:ring-1 focus:ring-violet-500 capitalize"
                 defaultValue=""
@@ -75,6 +88,7 @@ function NewTopic() {
               Context / Description
             </label>
             <textarea
+              name="description"
               id="description"
               rows={4}
               placeholder="Provide context or expand on your argument framework..."
