@@ -1,34 +1,39 @@
 import { db } from '@/db';
 import { topics, users } from '@/db/schema';
-import { eq, and } from "drizzle-orm"
+import { eq, aliasedTable } from "drizzle-orm"
 import React from 'react'
 
 async function Feed() {
 
-  const fetchecTopics = await db.select({
-    id: topics.id,
-    poster: {
-      name: users.name,
-      image: users.imageUrl,
-      clerkId: users.clerkId,
-    },
-    title: topics.title,
-    description: topics.description,
-    category: topics.category,
-    status: topics.status,
-    secondParticipant: {
-      name: users.name,
-      image: users.imageUrl,
-      clerkId: users.clerkId
-    },
-    createdAt: topics.createdAt
-  })
-  .from(topics)
-  .innerJoin(users, and(eq(topics.posterId, users.clerkId), eq(topics.secondParticipantId, users.clerkId) ))
+  const posters = aliasedTable(users, "posters");
+  const opponents = aliasedTable(users, "opponents");
+
+  const fetchedTopics = await db
+    .select({
+      id: topics.id,
+      title: topics.title,
+      description: topics.description,
+      category: topics.category,
+      status: topics.status,
+      createdAt: topics.createdAt,
+      poster: {
+        name: posters.name,
+        image: posters.imageUrl,
+        clerkId: posters.clerkId,
+      },
+      secondParticipant: {
+        name: opponents.name,
+        image: opponents.imageUrl,
+        clerkId: opponents.clerkId,
+      },
+    })
+    .from(topics)
+    .innerJoin(posters, eq(topics.posterId, posters.clerkId))
+    .leftJoin(opponents, eq(topics.secondParticipantId, opponents.clerkId));
 
   return (
        <div className="flex flex-col flex-1 gap-4 overflow-y-scroll p-4 bg-gray-900">
-  {fetchecTopics.map((tpc) => {
+  {fetchedTopics.map((tpc) => {
     return (
       <div
         key={tpc.id}
